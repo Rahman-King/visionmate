@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Mate - AI Navigation for the Visually Impaired</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.0/index.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #06B6D4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 50%, #0F172A 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .section-divider {
+            background: linear-gradient(90deg, transparent 0%, #3B82F6 50%, transparent 100%);
+            height: 2px;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #3B82F6;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+        }
+        
+        .step-connector {
+            position: relative;
+        }
+        
+        .step-connector::after {
+            content: '↓';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #3B82F6;
+            font-size: 24px;
+        }
+        
+        .step-connector:last-child::after {
+            display: none;
+        }
+        
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        .sdg-card {
+            transition: all 0.3s ease;
+        }
+        
+        .sdg-card:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-2">
+                    <img src="Logo.png" alt="Vision Mate logo" class="w-10 h-10 rounded-full object-cover">
+                    <span class="text-xl font-bold gradient-text">Vision Mate</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#problem" class="nav-link text-slate-300 hover:text-white transition">The Problem</a>
+                    <a href="#solution" class="nav-link text-slate-300 hover:text-white transition">Solution</a>
+                    <a href="#how-it-works" class="nav-link text-slate-300 hover:text-white transition">How It Works</a>
+                    <a href="#technology" class="nav-link text-slate-300 hover:text-white transition">Technology</a>
+                    <a href="#impact" class="nav-link text-slate-300 hover:text-white transition">Impact</a>
+                    <a href="#contact" class="bg-gradient-to-r from-blue-500 to-cyan-500 px-6 py-2 rounded-full font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition">Get Started</a>
+                </div>
+                
+                <button id="mobileMenuBtn" class="md:hidden text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu fixed top-16 right-0 w-64 bg-slate-800 h-screen md:hidden">
+            <div class="p-4 space-y-4">
+                <a href="#problem" class="block text-slate-300 hover:text-white">The Problem</a>
+                <a href="#solution" class="block text-slate-300 hover:text-white">Solution</a>
+                <a href="#how-it-works" class="block text-slate-300 hover:text-white">How It Works</a>
+                <a href="#technology" class="block text-slate-300 hover:text-white">Technology</a>
+                <a href="#impact" class="block text-slate-300 hover:text-white">Impact</a>
+                <a href="#contact" class="block bg-gradient-to-r from-blue-500 to-cyan-500 px-6 py-2 rounded-full font-semibold text-center">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-screen flex items-center pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="inline-block bg-blue-500/20 border border-blue-500/50 rounded-full px-4 py-2">
+                        <span class="text-blue-400 text-sm font-semibold">🚀 AI-Powered Navigation Assistant</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                        Your <span class="gradient-text">AI Co-Pilot</span> for Safe Navigation
+                    </h1>
+                    <p class="text-xl text-slate-300 leading-relaxed">
+                        Vision Mate empowers visually impaired individuals with real-time, intelligent navigation. Detect hazards, receive directional guidance, and gain true independence.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#solution" class="bg-gradient-to-r from-blue-500 to-cyan-500 px-8 py-4 rounded-full font-semibold text-center hover:shadow-lg hover:shadow-blue-500/30 transition transform hover:scale-105">
+                            Discover Vision Mate
+                        </a>
+                        <a href="#how-it-works" class="border border-slate-600 px-8 py-4 rounded-full font-semibold text-center hover:bg-slate-800 transition">
+                            See How It Works
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-8 pt-4">
+                        <div>
+                            <div class="text-3xl font-bold gradient-text">&lt;100ms</div>
+                            <div class="text-slate-400 text-sm">Response Time</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold gradient-text">YOLOv8</div>
+                            <div class="text-slate-400 text-sm">AI Detection</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold gradient-text">On-Device</div>
+                            <div class="text-slate-400 text-sm">No Cloud Needed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="Vision Mate.png" alt="AI Navigation Interface" class="w-full rounded-2xl glow-effect animate-float">
+                    <div class="absolute -bottom-6 -left-6 bg-slate-800 border border-slate-700 rounded-xl p-4 shadow-xl">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                            <span class="text-sm font-semibold">Real-Time Detection Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problem" class="py-20 bg-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">The <span class="gradient-text">Navigation Gap</span></h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                    Visually impaired individuals face critical limitations in real-time navigation that existing solutions cannot address.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <img src="https://image.qwenlm.ai/public_source/ec6d6ede-273f-4d58-8170-7026c44a4749/1a1bbf218-70e3-4d4e-896a-5b0227a8f552.png" alt="Navigation Challenges" class="w-full rounded-2xl">
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold">Traditional White Canes Limitations</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Detect only ground-level static obstacles</h4>
+                                <p class="text-slate-400 text-sm">Cannot identify overhead hazards or elevated dangers</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Cannot detect moving vehicles</h4>
+                                <p class="text-slate-400 text-sm">Dynamic threats remain invisible to traditional aids</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Cannot identify sharp objects or fire</h4>
+                                <p class="text-slate-400 text-sm">Critical safety hazards go undetected</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-red-500/10 border border-red-500/50 rounded-xl p-6 mt-8">
+                        <h4 class="font-bold text-red-400 mb-2">The Gap</h4>
+                        <p class="text-slate-300">There is no real-time AI co-pilot that interprets dynamic environmental threats and provides instant spatial guidance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Barriers Section -->
+    <section class="py-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Why Does This <span class="gradient-text">Gap Exist?</span></h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                    Processing visual scenes into safe, reliable, sub-second instructions is technically complex and resource-intensive.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card-hover bg-slate-800 rounded-2xl p-8 border border-slate-700">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">High Cost</h3>
+                    <p class="text-slate-400">Specialized hardware devices like OrCam cost $4,000+, making them inaccessible to most users.</p>
+                </div>
+                
+                <div class="card-hover bg-slate-800 rounded-2xl p-8 border border-slate-700">
+                    <div class="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">High Latency</h3>
+                    <p class="text-slate-400">Human or cloud-based systems require waiting time, critical seconds that could prevent accidents.</p>
+                </div>
+                
+                <div class="card-hover bg-slate-800 rounded-2xl p-8 border border-slate-700">
+                    <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-500 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">No Active Navigation</h3>
+                    <p class="text-slate-400">Most solutions identify objects but don't provide directional commands like "Move Left" or "Stop".</p>
+                </div>
+            </div>
+            
+                <div class="mt-12 text-center">
+                    <p class="text-slate-400 mt-6 text-lg">Core Problem: <span class="text-white font-semibold">They inform. They don't actively guide.</span></p>
+                </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="py-20 bg-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Introducing <span class="gradient-text">Vision Mate</span></h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                    An AI-driven smart navigation assistant that transforms detection into actionable direction.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center mb-20">
+                <div class="order-2 md:order-1">
+                    <img src="https://image.qwenlm.ai/public_source/ec6d6ede-273f-4d58-8170-7026c44a4749/1a3bd5403-30ec-4a0b-81df-c577befdcdf2.png" alt="AI Brain Processing" class="w-full rounded-2xl glow-effect">
+                </div>
+                <div class="order-1 md:order-2 space-y-6">
+                    <h3 class="text-2xl font-bold">Core Features</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 feature-icon rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">YOLOv8 Real-Time Detection</h4>
+                                <p class="text-slate-400">Advanced AI model for instant object and hazard recognition</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 feature-icon rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Dynamic Hazard Detection</h4>
+                                <p class="text-slate-400">Detects moving vehicles, fire, sharp objects, and overhead threats</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 feature-icon rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Spatial Sector Logic</h4>
+                                <p class="text-slate-400">Left / Center / Right directional awareness for precise guidance</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 feature-icon rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Priority Alert System</h4>
+                                <p class="text-slate-400">Dangerous classes (knife, fire, vehicles) announced first</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Example Commands -->
+            <div class="bg-slate-900 rounded-2xl p-8 border border-slate-700">
+                <h3 class="text-2xl font-bold text-center mb-8">Smart Audio Guidance Examples</h3>
+                <div class="grid md:grid-cols-4 gap-4">
+                    <div class="bg-blue-500/20 border border-blue-500/50 rounded-xl p-4 text-center">
+                        <div class="text-3xl mb-2">⬅️</div>
+                        <p class="font-semibold">"Move Left"</p>
+                    </div>
+                    <div class="bg-red-500/20 border border-red-500/50 rounded-xl p-4 text-center">
+                        <div class="text-3xl mb-2">🛑</div>
+                        <p class="font-semibold">"Stop"</p>
+                    </div>
+                    <div class="bg-yellow-500/20 border border-yellow-500/50 rounded-xl p-4 text-center">
+                        <div class="text-3xl mb-2">⚠️</div>
+                        <p class="font-semibold">"Object Ahead"</p>
+                    </div>
+                    <div class="bg-orange-500/20 border border-orange-500/50 rounded-xl p-4 text-center">
+                        <div class="text-3xl mb-2">🔥</div>
+                        <p class="font-semibold">"Danger on Right"</p>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <span class="inline-block bg-green-500/20 border border-green-500/50 rounded-full px-6 py-2">
+                        <span class="text-green-400 font-semibold">⚡ Less than 100ms response time</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">How <span class="gradient-text">Vision Mate</span> Works</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                    Smart navigation in action — from camera input to audio guidance in milliseconds.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-5 gap-4 mb-16">
+                <div class="step-connector bg-slate-800 rounded-xl p-6 text-center border border-slate-700">
+                    <div class="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-bold mb-2">Input</h4>
+                    <p class="text-slate-400 text-sm">Camera captures live video feed</p>
+                </div>
+                
+                <div class="step-connector bg-slate-800 rounded-xl p-6 text-center border border-slate-700">
+                    <div class="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-bold mb-2">YOLO Analysis</h4>
+                    <p class="text-slate-400 text-sm">AI detects objects and hazards</p>
+                </div>
+                
+                <div class="step-connector bg-slate-800 rounded-xl p-6 text-center border border-slate-700">
+                    <div class="w-16 h-16 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-bold mb-2">Spatial Logic</h4>
+                    <p class="text-slate-400 text-sm">Left/Center/Right positioning</p>
+                </div>
+                
+                <div class="step-connector bg-slate-800 rounded-xl p-6 text-center border border-slate-700">
+                    <div class="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-bold mb-2">Priority Filter</h4>
+                    <p class="text-slate-400 text-sm">Critical threats prioritized</p>
+                </div>
+                
+                <div class="bg-slate-800 rounded-xl p-6 text-center border border-slate-700">
+                    <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.728-2.728"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-bold mb-2">Audio Feedback</h4>
+                    <p class="text-slate-400 text-sm">Instant directional commands</p>
+                </div>
+            </div>
+            
+            <!-- Tech Stack -->
+            <div id="technology" class="bg-slate-800 rounded-2xl p-8 border border-slate-700">
+                <h3 class="text-2xl font-bold text-center mb-8">Powering Vision Mate</h3>
+                <div class="grid md:grid-cols-5 gap-4">
+                    <div class="text-center p-4">
+                        <div class="w-16 h-16 bg-blue-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/python.svg" alt="Python" class="w-8 h-8">
+                            </div>
+                        <h4 class="font-semibold">Python</h4>
+                        <p class="text-slate-400 text-sm">Core Development</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="w-16 h-16 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                <svg class="w-8 h-8 text-purple-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 7h3l2-3h6l2 3h3v11H4V7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="12" cy="13" r="3" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </div>
+                        <h4 class="font-semibold">YOLOv8</h4>
+                        <p class="text-slate-400 text-sm">Object Detection</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="w-16 h-16 bg-red-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/streamlit.svg" alt="Streamlit" class="w-8 h-8">
+                            </div>
+                        <h4 class="font-semibold">Streamlit</h4>
+                        <p class="text-slate-400 text-sm">Frontend Interface</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/opencv.svg" alt="OpenCV" class="w-8 h-8">
+                            </div>
+                        <h4 class="font-semibold">OpenCV</h4>
+                        <p class="text-slate-400 text-sm">Vision Processing</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="w-16 h-16 bg-cyan-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                <svg class="w-8 h-8 text-cyan-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M19 8a4 4 0 010 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        <h4 class="font-semibold">eSpeak</h4>
+                        <p class="text-slate-400 text-sm">Audio Feedback</p>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <p class="text-slate-400">
+                        <span class="text-white font-semibold">Design Philosophy:</span> Software-first approach for scalability and affordability
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="py-20 bg-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">System Architecture & <span class="gradient-text">Global Impact</span></h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                    Vision Mate contributes to inclusive smart-city innovation aligned with UN Sustainable Development Goals.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="sdg-card bg-slate-900 rounded-2xl p-8 border border-slate-700 text-center">
+                    <img src="SDG.png" alt="SDG Icons" class="w-32 mx-auto mb-6">
+                    <div class="space-y-4">
+                        <div>
+                            <div class="text-3xl font-bold text-green-500">SDG 3</div>
+                            <h4 class="font-semibold mt-2">Good Health & Well-being</h4>
+                            <p class="text-slate-400 text-sm">Promote safety and reduce injuries</p>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-blue-500">SDG 10</div>
+                            <h4 class="font-semibold mt-2">Reduced Inequalities</h4>
+                            <p class="text-slate-400 text-sm">Empower marginalized communities</p>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-cyan-500">SDG 11</div>
+                            <h4 class="font-semibold mt-2">Sustainable Cities</h4>
+                            <p class="text-slate-400 text-sm">Safer, inclusive urban environments</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-2 bg-slate-900 rounded-2xl p-8 border border-slate-700">
+                    <h3 class="text-2xl font-bold mb-6">Daily Life Impact</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <h4 class="font-semibold text-lg text-red-400">Challenges Without Vision Mate</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-red-500 mt-1">✕</span>
+                                    <span class="text-slate-300">Dependence on family or strangers</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-red-500 mt-1">✕</span>
+                                    <span class="text-slate-300">High risk of injury in unfamiliar environments</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-red-500 mt-1">✕</span>
+                                    <span class="text-slate-300">Anxiety in crowded public areas</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-red-500 mt-1">✕</span>
+                                    <span class="text-slate-300">Psychological barrier of feeling unsafe</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="space-y-4">
+                            <h4 class="font-semibold text-lg text-green-400">Benefits With Vision Mate</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-green-500 mt-1">✓</span>
+                                    <span class="text-slate-300">Independent navigation confidence</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-green-500 mt-1">✓</span>
+                                    <span class="text-slate-300">Real-time hazard awareness</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-green-500 mt-1">✓</span>
+                                    <span class="text-slate-300">Reduced anxiety in public spaces</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-green-500 mt-1">✓</span>
+                                    <span class="text-slate-300">Enhanced social mobility</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-8 p-6 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl border border-blue-500/50">
+                        <p class="text-center text-lg">
+                            <span class="font-semibold text-white">Emotional Impact:</span>
+                            <span class="text-slate-300"> Limited independence reduces confidence and social mobility. Vision Mate restores both.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Independence Through <span class="gradient-text">Innovation</span></h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                    Vision Mate is not just a tool. It is a digital co-pilot, a confidence booster, a step toward true independence.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <img src="https://image.qwenlm.ai/public_source/ec6d6ede-273f-4d58-8170-7026c44a4749/1a1bbf218-70e3-4d4e-896a-5b0227a8f552.png" alt="Future City" class="w-full rounded-2xl glow-effect">
+                </div>
+                <div class="space-y-8">
+                    <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700">
+                        <h3 class="text-2xl font-bold mb-6">Our Mission</h3>
+                        <p class="text-slate-300 text-lg leading-relaxed">
+                            To empower visually impaired individuals with real-time, intelligent navigation that transforms how they experience the world.
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-lg">Get In Touch</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <span class="text-slate-300">contact@visionmate.ai</span>
+                            </div>
+                            <!-- Phone removed per request -->
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                    </svg>
+                                </div>
+                                <a href="https://visionmate.streamlit.app" class="text-slate-300 hover:underline">visionmate.streamlit.app</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="inline-block bg-gradient-to-r from-blue-500 to-cyan-500 px-8 py-4 rounded-full font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition transform hover:scale-105">
+                        Join the Vision Mate Community
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <img src="Logo.png" alt="Vision Mate logo" class="w-10 h-10 rounded-full object-cover">
+                        <span class="text-xl font-bold gradient-text">Vision Mate</span>
+                    </div>
+                    <p class="text-slate-400 max-w-md">
+                        Empowering visually impaired individuals with real-time, intelligent navigation for true independence.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#problem" class="text-slate-400 hover:text-white transition">The Problem</a></li>
+                        <li><a href="#solution" class="text-slate-400 hover:text-white transition">Solution</a></li>
+                        <li><a href="#how-it-works" class="text-slate-400 hover:text-white transition">How It Works</a></li>
+                        <li><a href="#technology" class="text-slate-400 hover:text-white transition">Technology</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-500 transition">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-pink-600 transition">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-divider mb-8"></div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-slate-400 text-sm">
+                    © 2024 Vision Mate. All rights reserved.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-slate-400 hover:text-white text-sm transition">Privacy Policy</a>
+                    <a href="#" class="text-slate-400 hover:text-white text-sm transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+        });
+        
+        // Close mobile menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Navbar background on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.card-hover, .sdg-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
+
